@@ -1,0 +1,11 @@
+node_modules
+.tools
+ios
+android
+.expo
+pipeline/work
+pipeline/input
+pipeline/output
+assets/map/glyphs
+assets/map/world
+package-lock.json

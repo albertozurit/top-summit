@@ -1,0 +1,21 @@
+# Zonas piloto. bbox = [oeste, sur, este, norte] en grados WGS84.
+# Mantener pequeñas en M1-M2: el tamaño final se mide en el spike S3.
+zones:
+  - id: benasque
+    name: Valle de Benasque
+    description: Aneto, Posets y valle de Estós. Zona de alta montaña para validar curvas, relieve y rutas.
+    bbox: [0.40, 42.50, 0.75, 42.75]
+    minZoom: 0
+    maxZoom: 14
+    dem: copernicus-glo30
+    raster: hillshade
+
+  - id: casa
+    name: Zona de casa
+    description: Zona de pruebas cercana a casa (ajustar el bbox).
+    # [SUPUESTO] bbox provisional (Sierra de Guadarrama); cámbialo por tu zona real.
+    bbox: [-4.10, 40.75, -3.85, 40.90]
+    minZoom: 0
+    maxZoom: 14
+    dem: copernicus-glo30
+    raster: hillshade

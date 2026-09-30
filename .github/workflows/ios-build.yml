@@ -1,0 +1,90 @@
+# IPA sin firmar para sideloading (Sideloadly + Apple ID gratuita). Ver docs/distribution.md.
+# Manual: los minutos de macOS cuentan x10 en repositorios privados.
+name: iOS build (unsigned)
+
+on:
+  workflow_dispatch:
+    inputs:
+      variant:
+        description: 'release (JS embebido, modo avión) o development (necesita Metro)'
+        type: choice
+        options: [release, development, both]
+        default: release
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ios-build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    # [VERIFICAR] La imagen debe traer la versión de Xcode que exige el SDK de Expo.
+    runs-on: macos-26
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        variant: ${{ fromJSON(inputs.variant == 'both' && '["release","development"]' || format('["{0}"]', inputs.variant)) }}
+    env:
+      # URL pública del catálogo de zonas (no es un secreto). Variable del repositorio, opcional.
+      EXPO_PUBLIC_MANIFEST_URL: ${{ vars.MANIFEST_URL }}
+      CONFIGURATION: ${{ matrix.variant == 'release' && 'Release' || 'Debug' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+
+      - name: Xcode
+        run: xcodebuild -version
+
+      - name: Prebuild (CNG)
+        run: npx expo prebuild --platform ios --clean
+        env:
+          CI: 1
+
+      - name: Build sin firma
+        run: |
+          set -o pipefail
+          xcodebuild \
+            -workspace ios/TopSummit.xcworkspace \
+            -scheme TopSummit \
+            -configuration "$CONFIGURATION" \
+            -sdk iphoneos \
+            -destination 'generic/platform=iOS' \
+            -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" \
+            build | tee xcodebuild.log | grep -E "error:|warning: .*deprecated|\*\* BUILD" || true
+          test -d "build/Build/Products/${CONFIGURATION}-iphoneos/TopSummit.app"
+
+      - name: Empaquetar IPA
+        id: ipa
+        run: |
+          APP="build/Build/Products/${CONFIGURATION}-iphoneos/TopSummit.app"
+          NAME="TopSummit-${{ matrix.variant }}-$(git rev-parse --short HEAD)-unsigned.ipa"
+          mkdir -p Payload
+          cp -R "$APP" Payload/
+          # El bundle release debe llevar el JS embebido; sin él no arranca en modo avión.
+          if [ "${{ matrix.variant }}" = "release" ]; then test -f Payload/TopSummit.app/main.jsbundle; fi
+          ditto -c -k --sequesterRsrc --keepParent Payload "$NAME"
+          echo "name=$NAME" >> "$GITHUB_OUTPUT"
+          du -h "$NAME"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.ipa.outputs.name }}
+          path: ${{ steps.ipa.outputs.name }}
+          retention-days: 14
+
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: xcodebuild-log-${{ matrix.variant }}
+          path: xcodebuild.log
+          retention-days: 7

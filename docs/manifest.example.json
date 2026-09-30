@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-30T10:00:00Z",
+  "zones": [
+    {
+      "id": "benasque",
+      "name": "Valle de Benasque",
+      "version": "2026-09-29.1a2b3c4d",
+      "bbox": [0.4, 42.5, 0.75, 42.75],
+      "minZoom": 0,
+      "maxZoom": 14,
+      "osmDate": "2026-09-29",
+      "demSource": "copernicus-glo30",
+      "raster": "hillshade",
+      "attribution": [
+        "© Colaboradores de OpenStreetMap (ODbL)",
+        "© OpenMapTiles",
+        "Copernicus DEM GLO-30 © DLR e.V. 2010-2014 y © Airbus Defence and Space GmbH 2014-2018, proporcionado bajo COPERNICUS por la Unión Europea y la ESA"
+      ],
+      "files": [
+        {
+          "kind": "vector",
+          "url": "https://github.com/OWNER/REPO/releases/download/zones-2026-09-29/benasque-vector.pmtiles",
+          "bytes": 187654321,
+          "md5": "1a2b3c4d5e6f708192a3b4c5d6e7f809"
+        },
+        {
+          "kind": "raster",
+          "url": "https://github.com/OWNER/REPO/releases/download/zones-2026-09-29/benasque-raster.pmtiles",
+          "bytes": 98765432,
+          "md5": "0f1e2d3c4b5a69788796a5b4c3d2e1f0"
+        }
+      ],
+      "description": "Aneto, Posets y valle de Estós. Zona de alta montaña para validar curvas, relieve y rutas."
+    }
+  ]
+}

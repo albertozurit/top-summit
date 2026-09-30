@@ -1,0 +1,38 @@
+# Dependencias y herramientas locales
+node_modules/
+.tools/
+
+# Expo / React Native (proyectos nativos generados con prebuild: CNG)
+.expo/
+dist/
+web-build/
+ios/
+android/
+expo-env.d.ts
+
+# Builds
+build/
+*.ipa
+*.app
+*.xcarchive
+
+# Pipeline de datos (descargas y resultados pesados)
+pipeline/work/
+pipeline/input/
+pipeline/output/
+*.osm.pbf
+*.mbtiles
+*.pmtiles
+!src/**/__fixtures__/*.pmtiles
+__pycache__/
+.pytest_cache/
+
+# Entorno y secretos
+.env
+.env.*
+!.env.example
+
+# Sistema / editores
+.DS_Store
+*.log
+coverage/

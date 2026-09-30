@@ -1,0 +1,17 @@
+#!/usr/bin/env sh
+# Activado con `npm install` (script "prepare": core.hooksPath=.githooks).
+set -e
+
+if command -v gitleaks >/dev/null 2>&1; then
+  gitleaks protect --staged --redact --no-banner
+else
+  echo "pre-commit: gitleaks no está instalado; se omite el escaneo de secretos (la CI lo ejecuta igualmente)." >&2
+fi
+
+staged=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.(ts|tsx|js)$' || true)
+if [ -n "$staged" ]; then
+  # shellcheck disable=SC2086
+  npx --no-install eslint --max-warnings=0 $staged
+  # shellcheck disable=SC2086
+  npx --no-install prettier --check $staged
+fi
