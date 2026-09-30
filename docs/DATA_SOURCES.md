@@ -1,5 +1,7 @@
 # Fuentes de datos y licencias
 
+El código del repositorio está bajo MIT ([`LICENSE`](../LICENSE)). Este documento cubre los datos y los recursos de terceros. Esas licencias no se sustituyen por la MIT.
+
 Criterio: solo datos cuya licencia permite **descarga masiva y uso offline**. No se descargan teselas de servidores de terceros (ni `tile.openstreetmap.org` ni proveedores gratuitos con prohibición de precarga): todas las teselas se generan en `pipeline/` a partir de datos brutos.
 
 | Dato                                       | Fuente                                                                                                                               | Licencia                                           | Atribución en la app                                                                       | Notas                                                                                                                                 |

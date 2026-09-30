@@ -51,6 +51,12 @@ Pipeline: `cd pipeline && make test` (pytest), `make zone ZONE=benasque`, `make 
 - [`docs/device-tests.md`](docs/device-tests.md): pruebas manuales y protocolo de modo avión.
 - [`docs/adr/`](docs/adr): decisiones y resultados de los spikes S1–S6.
 
+## Licencia
+
+El código de este repositorio se publica bajo la licencia MIT. Ver [`LICENSE`](LICENSE).
+
+Los mapas, el relieve y las tipografías no están bajo MIT. Siguen las licencias de sus fuentes (ODbL, CC-BY, Copernicus DEM, dominio público, SIL OFL y otras), detalladas en [`docs/DATA_SOURCES.md`](docs/DATA_SOURCES.md).
+
 ## Datos y atribución
 
 © Colaboradores de OpenStreetMap (ODbL) · © OpenMapTiles · Copernicus DEM GLO-30 · IGN/CNIG (CC-BY 4.0) · Natural Earth. Detalle en [`docs/DATA_SOURCES.md`](docs/DATA_SOURCES.md).
